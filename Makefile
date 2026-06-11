@@ -1,28 +1,17 @@
 CC = gcc
 CFLAGS = -O0 -fno-stack-protector -no-pie -Wall -Wextra
 
-.PHONY: all regenerate clean
+.PHONY: all clean
 
-all: crackme_clean crackme_ida solver
+all: bin/crackme_ida solver/solver
 
-crackme_clean: src/crackme_clean.c
-	$(CC) $(CFLAGS) src/crackme_clean.c -o crackme_clean
+bin/crackme_ida: vm/crackme_vm.c
+	mkdir -p bin
+	$(CC) $(CFLAGS) vm/crackme_vm.c -o bin/crackme_ida
+	strip --strip-all bin/crackme_ida
 
-bytecode_generator: src/bytecode_generator.c
-	$(CC) $(CFLAGS) src/bytecode_generator.c -o bytecode_generator
-
-src/generated_bytecode.h: src/crackme_clean.c bytecode_generator
-	./bytecode_generator src/crackme_clean.c src/generated_bytecode.h
-
-regenerate: bytecode_generator
-	./bytecode_generator src/crackme_clean.c src/generated_bytecode.h
-
-crackme_ida: src/crackme_vm.c src/generated_bytecode.h
-	$(CC) $(CFLAGS) src/crackme_vm.c -o crackme_ida
-	strip crackme_ida
-
-solver: src/solver.c
-	$(CC) $(CFLAGS) src/solver.c -o solver
+solver/solver: solver/solver.c
+	$(CC) $(CFLAGS) solver/solver.c -o solver/solver -lz3
 
 clean:
-	rm -f bytecode_generator src/generated_bytecode.h crackme_clean crackme_ida solver
+	rm -f bin/crackme_clean bin/crackme_ida solver/solver
