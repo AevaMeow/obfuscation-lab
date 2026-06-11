@@ -278,7 +278,7 @@ int main(int argc, char **argv)
         printf("Bytecode: %zu bytes\n", code_len);
         printf("Instructions: %d\n", instruction_count);
         printf("Comparisons: %d\n", comparison_count);
-        printf("Z3: sat\n");
+        printf("Z3: SAT\n");
     }
 
     puts(key);
