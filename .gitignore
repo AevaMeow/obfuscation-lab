@@ -1,5 +1,3 @@
 bin/*
 !bin/crackme_ida
 generator/bytecode_generator
-solver/solver
-vm/generated_bytecode.h
