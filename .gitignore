@@ -1,0 +1,3 @@
+bin/*
+!bin/crackme_ida
+generator/bytecode_generator
